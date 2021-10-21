@@ -6,6 +6,7 @@ import BottomTabNavigation from './src/navigation/BottomTabNavigation';
 export default function App() {
   return (
     <NavigationContainer>
+      <StatusBar style="auto" />
       <BottomTabNavigation />
     </NavigationContainer>
   );
