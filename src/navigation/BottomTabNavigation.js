@@ -39,7 +39,7 @@ export default function BottomTabNavigation() {
               <Feather
                 name="home"
                 size={20}
-                color={focused ? "#0CF574" : "gray"}
+                color={focused ? "cyan" : "gray"}
               />
             </View>
           ),
@@ -54,7 +54,7 @@ export default function BottomTabNavigation() {
               <Feather
                 name="map"
                 size={20}
-                color={focused ? "#0CF574" : "gray"}
+                color={focused ? "cyan" : "gray"}
               />
             </View>
           ),

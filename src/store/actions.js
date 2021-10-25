@@ -2,7 +2,7 @@ export const GET_SCHOOLS = 'GET_SCHOOLS';
 
 const baseURL = 'https://khulaassessmentserver.herokuapp.com/api';
 
-export const getSchools = () => {
+export const getSchools = (page) => {
     try {
         return async dispatch => {
             const response = await fetch(`${baseURL}/schools`);
