@@ -8,10 +8,11 @@ import {
   Image,
   Text,
   TextInput,
+  TouchableOpacity,
   SafeAreaView,
-  FlatList,
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
+import { showLocation } from 'react-native-map-link';
 import { getSchools } from "../store/actions";
 import Feather from "@expo/vector-icons/Feather";
 
@@ -28,17 +29,26 @@ export default function HomeScreen() {
     }
   };
 
-  const filterSchoolsByName = () => {
-    setFilterSchools(schools.filter((school) => school.name.includes(search)));
+  const filterSchoolsByName = text => {
+    setSearch(text);
+    if(text === '') {
+      setFilterSchools(schools);
+    }
+    else {
+      const filteredSchools = schools.filter(school => school.name.toLowerCase().includes(text.toLowerCase()));
+      setFilterSchools(filteredSchools);
+    }
   };
 
-  const renderSchools = () => {
-    schools.map((school) => (
-      <View key={school.id}>
-        <Text>Heello</Text>
-      </View>
-    ));
-  };
+  const openMaps = (lat, long, name) => {
+    showLocation({
+      latitude: lat,
+      longitude: long,
+      title: name,
+      googleForceLatLon: false,
+      alwaysIncludeGoogle: true,
+    })
+  }
 
   useEffect(() => {
     headerHeight();
@@ -68,10 +78,12 @@ export default function HomeScreen() {
               style={{ marginRight: 10 }}
             />
             <TextInput
-              underlineColorAndroid="transparent"
+              autoCorrect={false}
+              autoCapitalize="none"
+              clearButtonMode="always"
               placeholder="Search school...."
               placeholderTextColor="grey"
-              onChange={() => filterSchoolsByName()}
+              onChangeText={queryText => filterSchoolsByName(queryText)}
               value={search}
               style={{
                 flex: 1,
@@ -88,17 +100,18 @@ export default function HomeScreen() {
             blurRadius={80}
           />
           <Animated.FlatList
-            data={schools}
+            data={filterSchools}
             onScroll={Animated.event(
               [{ nativeEvent: { contentOffset: { y: scrollY } } }],
               { useNativeDriver: true }
             )}
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item) => item.id.toString()}
             contentContainerStyle={{
               padding: SPACING,
             }}
             renderItem={({ item }) => (
-              <View
+              <TouchableOpacity
+                onPress={() => openMaps(item.latitude, item.longitude, item.name)}
                 style={{
                   flexDirection: "row",
                   padding: SPACING,
@@ -130,7 +143,7 @@ export default function HomeScreen() {
                     {item.address}
                   </Text>
                 </View>
-              </View>
+              </TouchableOpacity>
             )}
           />
         </View>

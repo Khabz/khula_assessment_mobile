@@ -1,6 +1,6 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Text, View, TouchableOpacity } from "react-native";
+import { View } from "react-native";
 import Feather from "@expo/vector-icons/Feather";
 
 // screens
